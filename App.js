@@ -7,6 +7,7 @@ import Notes from "./components/Notes/NotesScreen";
 import AddNote from "./components/Notes/AddNote";
 import ViewNote from "./components/Notes/ViewNote";
 import CameraFunction from './components/Camera/CameraFunction';
+import VideoScreen from './components/Camera/Video';
 
 function HomeScreen({ navigation }) {  
   return (
@@ -49,6 +50,25 @@ function HomeScreen({ navigation }) {
          Camera
        </Text>
      </TouchableOpacity>
+     <TouchableOpacity
+       style={{
+         width: "80%",
+         padding: 5,
+         borderColor: "red",
+         borderWidth: 1,
+         borderRadius: 15,
+         marginVertical: 10
+       }}
+     >
+       <Text
+         style={{ textAlign: "center", color: "red" }}
+         onPress={() =>
+           navigation.navigate("Video")
+         }
+       >
+         Video
+       </Text>
+     </TouchableOpacity>
    </View>
  );
 }
@@ -64,6 +84,7 @@ function App() {
        <Stack.Screen name="AddNote" component={AddNote}/>
        <Stack.Screen name="ViewNote" component={ViewNote}/>
        <Stack.Screen name="Camera" component={CameraFunction}/>
+       <Stack.Screen name="Video" component={VideoScreen}/>
      </Stack.Navigator>
    </NavigationContainer>
  );

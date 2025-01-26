@@ -109,6 +109,29 @@ export default function CameraFunction() {
     );
   }
 
+  //Video Recorder
+  async function recordVideo(){
+    setRecording(true); //Updates the recording state to true. This will also toggle record button to stop button.
+    cameraRef.current.recordAsync({ //cameraRef is a useRef hook pointing to the camera component. It provides access to the camera's methods, such as recordAsync. Starts recording a video and returns a Promise that resolves with the recorded video’s details.
+      maxDuration: 30, //Limits the recording duration to 30 seconds. After 30 seconds, the recording automatically stops, and the Promise resolves.
+    })
+    .then((newVideo) => { //The result of this Promise is an object (newVideo) containing information about the recorded video, such as the file's URI and other metadata. This callback runs when the recording completes successfully. 
+      setVideo(newVideo); // Stores the recorded video details in the state, which can later be used for playback, uploading, or other actions.
+      setRecording(false);
+    })
+    console.log(video.uri)
+  }
+
+  function stopRecording(){
+    setRecording(false);
+    cameraRef.current.stopRecording();
+    console.log("Recording stopped");
+  }
+
+  if(video) {
+    let uri = video.uri;
+    navigation.navigate("Video", {uri})
+  }
   //We will design the camera UI first
   return (
     <View style={styles.container}>
@@ -161,11 +184,11 @@ export default function CameraFunction() {
               <Ionicons name="aperture-outline" size={40} color="white" />
             </TouchableOpacity>
           ) : recording ? (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={stopRecording}>
               <Ionicons name="stop-circle-outline" size={40} color="red" />
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={recordVideo}>
               <Ionicons name="play-circle-outline" size={40} color="white" />
             </TouchableOpacity>
           )}
